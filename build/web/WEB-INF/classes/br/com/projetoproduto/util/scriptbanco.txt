@@ -1,0 +1,18 @@
+create table produto(
+	idproduto serial not null,
+	descproduto varchar(40),
+	marcaproduto varchar(40),
+	modeloproduto varchar(40),
+	valorproduto numeric(9,2),
+	constraint pk_produto primary key(idproduto)
+);
+
+create table carro(
+	idcarro serial not null,
+	anocarro integer,
+	modelocarro integer,
+	nrportascarro integer,
+	idproduto integer,
+	constraint pk_carro primary key(idcarro),
+	constraint fk_carro_produto foreign key(idproduto) references produto(idproduto)
+);
