@@ -44,6 +44,21 @@
                                value="${produto.valorProduto}"></td>
                 </tr>
                 <tr>
+                    <td>Ano do Carro:</td>
+                    <td><input type="text" name="anoCarro"
+                               value="${produto.anoCarro}"></td>
+                </tr>
+                <tr>
+                    <td>Modelo Carro</td>
+                    <td><input type="text" name="modeloCarro"
+                               value="${produto.modeloCarro}"></td>
+                </tr>
+                <tr>
+                    <td>Número de Portas</td>
+                    <td><input type="text" name="nrportasCarro"
+                               value="${produto.nrportasCarro}"></td>
+                </tr>
+                <tr>
                     <td colspan="2" align="center"><input type="submit" 
                         name="alterar" value="Alterar">
                 </tr>

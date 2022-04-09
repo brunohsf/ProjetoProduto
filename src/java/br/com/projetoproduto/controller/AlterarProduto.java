@@ -2,6 +2,7 @@ package br.com.projetoproduto.controller;
 
 import br.com.projetoproduto.dao.GenericDAO;
 import br.com.projetoproduto.dao.CarroDAOImpl;
+import br.com.projetoproduto.model.Carro;
 import br.com.projetoproduto.model.Produto;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,15 +26,21 @@ public class AlterarProduto extends HttpServlet {
             String marcaProduto = request.getParameter("marcaProduto");
             String modeloProduto = request.getParameter("modeloProduto");
             Double valorProduto = Double.parseDouble(request.getParameter("valorProduto"));
+            Integer anoCarro = Integer.parseInt(request.getParameter("anoCarro"));
+            Integer modeloCarro = Integer.parseInt(request.getParameter("modeloCarro"));
+            Integer nrportasCarro = Integer.parseInt(request.getParameter("nrportasCarro"));
 
             String mensagem = null;
 
-            Produto produto = new Produto();
+            Carro produto = new Carro();
             produto.setIdProduto(idProduto);
             produto.setDescProduto(descProduto);
             produto.setMarcaProduto(marcaProduto);
             produto.setModeloProduto(modeloProduto);
             produto.setValorProduto(valorProduto);
+            produto.setAnoCarro(anoCarro);
+            produto.setModeloCarro(modeloCarro);
+            produto.setNrportasCarro(nrportasCarro);
 
             try {
                 GenericDAO dao = new CarroDAOImpl();

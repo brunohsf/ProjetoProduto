@@ -61,19 +61,22 @@ public class CarroDAOImpl implements GenericDAO {
         List<Object> produtos = new ArrayList<>();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        String sql = "select p.*, c.* from produto p, carro c "
-                + "where p.idproduto = c.idproduto;";
+        String sql = "select * from produto as p inner join carro as c on p.idproduto = c.idproduto";
         try {
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Produto produto = new Produto();
+                Carro produto = new Carro();
                 produto.setIdProduto(rs.getInt("idproduto"));
                 produto.setDescProduto(rs.getString("descproduto"));
+                produto.setIdCarro(rs.getInt("idcarro"));
                 produto.setMarcaProduto(rs.getString("marcaproduto"));
                 produto.setModeloProduto(rs.getString("modeloproduto"));
                 produto.setValorProduto(rs.getDouble("valorproduto"));
+                produto.setAnoCarro(rs.getInt("anocarro"));
+                produto.setModeloCarro(rs.getInt("anocarro"));
+                produto.setNrportasCarro(rs.getInt("nrportascarro"));
                 produtos.add(produto);
             }
         } catch (SQLException ex) {
@@ -92,13 +95,14 @@ public class CarroDAOImpl implements GenericDAO {
     }
 
     @Override
-     public Boolean excluir(int idOject) {
+     public Boolean excluir(int idObject) {
         PreparedStatement stmt = null;
-        String sql = "delete from produto where idproduto = ?;";
+        String sql = "delete from carro where idproduto = ?;";
         try {
             stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, idOject);
+            stmt.setInt(1, idObject);
             stmt.executeUpdate();
+            new ProdutoDAOImpl().excluir(idObject);
             return true;
         } catch (Exception ex) {
             System.out.println("Problemas ao excluir o produto! Erro" 
@@ -119,20 +123,23 @@ public class CarroDAOImpl implements GenericDAO {
     public Object carregar(int idObject) {
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Produto produto = null;
+        Carro produto = null;
         
-        String sql = "select * from produto where idproduto = ?;";
+        String sql = "select * from produto as p inner join carro as c on p.idproduto = c.idproduto where p.idproduto = ?;";
         try {
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, idObject);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                produto = new Produto();
+                produto = new Carro();
                 produto.setIdProduto(rs.getInt("idproduto"));
                 produto.setDescProduto(rs.getString("descproduto"));
                 produto.setMarcaProduto(rs.getString("marcaproduto"));
                 produto.setModeloProduto(rs.getString("modeloproduto"));
                 produto.setValorProduto(rs.getDouble("valorproduto"));
+                produto.setAnoCarro(rs.getInt("anocarro"));
+                produto.setModeloCarro(rs.getInt("anocarro"));
+                produto.setNrportasCarro(rs.getInt("nrportascarro"));
             }
         } catch (SQLException ex) {
             System.out.println("Problemas ao carregar produto! Erro: " + ex.getMessage());
@@ -150,16 +157,17 @@ public class CarroDAOImpl implements GenericDAO {
 
     @Override
     public Boolean alterar(Object object) {
-        Produto produto = (Produto) object;
+        Carro carro = (Carro) object;
         PreparedStatement stmt = null;
-        String sql = "update produto set descproduto = ?, marcaproduto = ?, modeloproduto = ?, valorproduto = ? where idproduto = ?;";
+        String sql = "update carro set anocarro = ?, modelocarro = ?, nrportascarro = ? where idproduto = ?;";
         try {
             stmt = conn.prepareStatement(sql);
-            stmt.setString(1, produto.getDescProduto());
-            stmt.setString(2, produto.getMarcaProduto());
-            stmt.setString(3, produto.getModeloProduto());
-            stmt.setDouble(4, produto.getValorProduto());
-            stmt.setInt(5, produto.getIdProduto());
+            stmt.setInt(1, carro.getAnoCarro());
+            stmt.setInt(2, carro.getModeloCarro());
+            stmt.setInt(3, carro.getNrportasCarro());   
+            stmt.setInt(4, carro.getIdProduto());
+            if(!new ProdutoDAOImpl().alterar(object))
+                return false;
             stmt.executeUpdate();
             return true;
         } catch (Exception ex) {

@@ -1,5 +1,6 @@
 package br.com.projetoproduto.dao;
 
+import br.com.projetoproduto.model.Carro;
 import br.com.projetoproduto.model.Produto;
 import br.com.projetoproduto.util.ConnectionFactory;
 import java.sql.Connection;
@@ -61,7 +62,26 @@ public class ProdutoDAOImpl implements GenericDAO{
 
     @Override
     public Boolean excluir(int idObject) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PreparedStatement stmt = null;
+        String sql = "delete from produto where idproduto = ?;";
+        try {
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, idObject);
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception ex) {
+            System.out.println("Problemas ao excluir o produto! Erro" 
+                    + ex.getMessage());
+            ex.printStackTrace();
+            return false;
+        } finally {
+            try {
+                ConnectionFactory.closeConnection(conn, stmt);
+            } catch (Exception e) {
+                System.out.println("Problemas ao fechar a conexão! Erro: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -71,7 +91,31 @@ public class ProdutoDAOImpl implements GenericDAO{
 
     @Override
     public Boolean alterar(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Produto produto = (Produto) object;
+        PreparedStatement stmt = null;
+        String sql = "update produto set descproduto = ?, marcaproduto = ?, modeloproduto = ?, valorproduto = ? where idproduto = ?;";
+        try {
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, produto.getDescProduto());
+            stmt.setString(2, produto.getMarcaProduto());
+            stmt.setString(3, produto.getModeloProduto());
+            stmt.setDouble(4, produto.getValorProduto());
+            stmt.setInt(5, produto.getIdProduto());
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception ex) {
+            System.out.println("Problemas ao alterar automóvel! Erro: " + ex.getMessage());
+            ex.printStackTrace();
+            return false;
+        } finally {
+            try {
+                ConnectionFactory.closeConnection(conn, stmt);
+            } catch (Exception e) {
+                System.out.println("Problemas ao fechar a conexão! Erro: "
+                        + e.getMessage());
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
