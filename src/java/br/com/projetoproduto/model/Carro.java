@@ -5,15 +5,17 @@ public class Carro extends Produto{
     private Integer idCarro;
     private Integer anoCarro;
     private Integer modeloCarro;
+    private TipoCarro tipoCarro;
     private Integer nrportasCarro;
 
     public Carro() {
     }
 
-    public Carro(Integer idCarro, Integer anoCarro, Integer modeloCarro, Integer nrportasCarro) {
+    public Carro(Integer idCarro, Integer anoCarro, Integer modeloCarro, TipoCarro tipoCarro,Integer nrportasCarro) {
         this.idCarro = idCarro;
         this.anoCarro = anoCarro;
         this.modeloCarro = modeloCarro;
+        this.tipoCarro = tipoCarro;
         this.nrportasCarro = nrportasCarro;
     }
 

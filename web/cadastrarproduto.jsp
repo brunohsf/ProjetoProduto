@@ -1,3 +1,4 @@
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,6 +18,15 @@
             <table border="0" align="center">
                 <tr>
                     <th colspan="2">Cadastrar Carros</th>
+                </tr>
+                <tr>
+                    <td>Tipo:</td>
+                    <td><select name="idTipoCarro">
+                            <c:forEach var="tipocarro" item="${tipocarros}">
+                                <option value="${tipocarro.idTipoCarro}">${tipocaro.nomeCarro}</option>
+                            </c:forEach>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <td>Descrição:</td>
@@ -48,7 +58,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" align="center"><input type="submit" 
-                        name="cadastrar" value="Cadastrar">
+                                                          name="cadastrar" value="Cadastrar">
                 </tr>
             </table>
             <h3 align="center"><a href="index.jsp">Voltar</a></h3>

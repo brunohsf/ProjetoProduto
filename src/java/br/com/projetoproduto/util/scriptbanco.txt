@@ -7,12 +7,20 @@ create table produto(
 	constraint pk_produto primary key(idproduto)
 );
 
+
+create table tipocarro(
+        idtipocarro serial not null,
+        nometipocarro varchar(40) not null,
+        constraitn pk_tipocarro primarykey(idtipocarro)
+
 create table carro(
 	idcarro serial not null,
 	anocarro integer,
 	modelocarro integer,
+        idtipocarro integer,
 	nrportascarro integer,
 	idproduto integer,
 	constraint pk_carro primary key(idcarro),
 	constraint fk_carro_produto foreign key(idproduto) references produto(idproduto)
+        constraint fk_carro_tipocarro foreign key(idtipocarro) references tipocarro(idtipocarro)
 );
